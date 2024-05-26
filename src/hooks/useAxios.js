@@ -15,7 +15,11 @@ const useAxios = (url) => {
     const response = await axios.get(fullURL);
     setState((cards) => [...cards, { ...response.data, id: uuid() }]);
   };
-  return [state, handleState];
+  const resetState = () => {
+    return setState([]);
+  };
+
+  return [state, handleState, resetState];
 };
 
 export default useAxios;
