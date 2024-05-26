@@ -1,9 +1,9 @@
-import { useState } from "react";
 import axios from "axios";
 import { v1 as uuid } from "uuid";
+import useLocalStorage from "./useLocalStorage";
 
 const useAxios = (url) => {
-  const [state, setState] = useState([]);
+  const [state, setState] = useLocalStorage(url, []);
   //   const handleState = async (options = {}) => {
   const handleState = async (endpoint) => {
     let fullURL;
@@ -13,12 +13,11 @@ const useAxios = (url) => {
       fullURL = url;
     }
     const response = await axios.get(fullURL);
-    setState((cards) => [...cards, { ...response.data, id: uuid() }]);
+    setState((items) => [...items, { ...response.data, id: uuid() }]);
   };
   const resetState = () => {
     return setState([]);
   };
-
   return [state, handleState, resetState];
 };
 
